@@ -9,8 +9,23 @@ pre_sum = [0]
 for i in range(n):
     pre_sum.append(pre_sum[-1] + nums[i])
 
-
+q = [0] * n
 def process(nums: [int]):
+    res = nums[0]
+    q[1] = 0
+    l, r = 1, 1
+    for index, val in enumerate(nums, start=1):
+        if l <= r and q[l] < index - m:
+            l += 1
+        res = max(res, pre_sum[index] - pre_sum[q[l]])
+        while l <= r and pre_sum[q[r]] >= pre_sum[index]:
+            r -= 1
+        r += 1
+        q[r] = index
+    return res
+
+
+def process_(nums: [int]):
     q = [0]
     res = nums[0]
     for index, val in enumerate(nums, start=1):
